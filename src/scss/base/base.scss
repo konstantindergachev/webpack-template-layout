@@ -1,0 +1,65 @@
+*, *::after, *::before{
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html{
+  font-size: 62.5%;//1rem = 10px, 10/16 = 62.5%
+}
+body{
+  font-family: 'Segoe UI', sans-serif;
+  font-weight: 400;
+  font-size: 1.22rem;
+  line-height: 1.7;
+  box-sizing: border-box;
+  overflow-y: hidden;
+}
+a{
+  text-decoration: none;
+}
+.header, .menu, .sidebar, .footer, a{
+  color: #ffffff;
+}
+
+svg{
+  width: 24px;
+  height: 24px;
+  fill: #fff;
+}
+
+.container{
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 50px auto 1fr auto;
+  grid-template-columns: 1fr 250px;
+  grid-template-areas: 
+  "header header"
+  "menu sidebar"
+  "main sidebar"
+  "footer footer";
+  @include deskfirst(960){
+    grid-template-rows: 150px 1fr auto;
+        grid-template-columns: auto 1fr 250px;
+        grid-template-areas: "menu header header"
+                             "menu main sidebar"
+                             "menu footer footer";
+  }
+  @include deskfirst(768){
+    grid-template-rows: 150px 1fr auto auto;
+        grid-template-columns: auto 1fr;
+        grid-template-areas: "menu header"
+                             "menu main"
+                             "menu sidebar"
+                             "menu footer";
+  }
+  @include deskfirst(560){
+    grid-template-rows: auto 150px 1fr auto auto;
+        grid-template-columns: 1fr;
+        grid-template-areas: "menu"
+                             "header"
+                             "main"
+                             "sidebar"
+                             "footer";
+  }
+}

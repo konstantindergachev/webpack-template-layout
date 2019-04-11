@@ -1,0 +1,40 @@
+.menu {
+  grid-area: menu;
+  padding: 15px;
+  background-color: var(--main-color);
+  border-bottom: 1px solid #fff;
+  display: flex;
+  justify-content: space-between;
+  @include deskfirst(960) {
+    padding: 0;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  @include deskfirst(560) {
+    padding: 0;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  &__item {
+    @include deskfirst(960) {
+      padding: 15px;
+      margin: 0;
+      font-size: 1.5rem;
+    }
+  }
+  &__text{
+    padding: 15px;
+    margin: 0;
+    font-size: 1.5rem;
+    line-height: 1.5rem;
+    @include deskfirst(560){
+      display: none;
+    }
+  }
+  &__link{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

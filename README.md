@@ -5,7 +5,7 @@
 
 ```bash
 # Clone repo
-clone git@github.com:konstantindergachev/webpack-template-layout.git
+git clone git@github.com:konstantindergachev/webpack-template-layout.git
 
 # Install dependencies
 yarn install -i

@@ -2,12 +2,10 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserJSPlugin = require('terser-webpack-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
-const cssDev = ['style-loader', 'css-loader', 'sass-loader'];
-const cssProd = [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader'];
-const cssConfig = isProd ? cssProd : cssDev;
-
 const config = {
   entry: './src/js/index.js',
   output: {
@@ -26,8 +24,13 @@ const config = {
         ],
       },
       {
-        test: /\.scss$/,
-        use: cssConfig,
+        test: /\.s?[ac]ss$/,
+        // use: cssConfig,
+        use: [
+          MiniCssExtractPlugin.loader,
+          { loader: 'css-loader', options: { url: false, sourceMap: true } },
+          { loader: 'sass-loader', options: { sourceMap: true } },
+        ],
       },
       {
         test: /\.pug$/,
@@ -39,23 +42,25 @@ const config = {
       },
     ],
   },
+  optimization: {
+    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+  },
   plugins: [
     new HtmlWebpackPlugin({
-      hash: true,
       filename: 'index.html',
       template: './src/view/index.pug',
     }),
     new MiniCssExtractPlugin({
-      filename: !isProd ? '[name].css' : '/css/[name].[hash].css',
-      chunkFilename: !isProd ? '[id].css' : '/css/[id].[hash].css',
+      filename: 'style.css',
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
   ],
+  mode: isProd ? 'production' : 'development',
   devServer: {
     noInfo: true,
     overlay: true,
-    contentBase: path.join(__dirname, 'src')
+    contentBase: path.join(__dirname, 'src'),
   },
 };
 

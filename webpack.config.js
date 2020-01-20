@@ -4,6 +4,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
 const config = {
@@ -25,7 +26,6 @@ const config = {
       },
       {
         test: /\.s?[ac]ss$/,
-        // use: cssConfig,
         use: [
           MiniCssExtractPlugin.loader,
           { loader: 'css-loader', options: { url: false, sourceMap: true } },
@@ -34,7 +34,7 @@ const config = {
       },
       {
         test: /\.pug$/,
-        use: ['html-loader', 'pug-html-loader'],
+        use: [ 'html-loader', 'pug-html-loader' ],
       },
       {
         test: /\.(png|jpe?g|gif|ico|svg)$/,
@@ -43,16 +43,23 @@ const config = {
     ],
   },
   optimization: {
-    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+    minimizer: [ new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({}) ],
   },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './src/view/index.pug',
+      minify: {
+        collapseWhitespace: true,
+      },
     }),
     new MiniCssExtractPlugin({
       filename: 'style.css',
     }),
+    new CopyPlugin([
+      { from: 'src/img/favicon', to: 'img/favicon', toType: 'dir' },
+      { from: 'src/img/favicon.ico', to: 'favicon.ico', toType: 'file' },
+    ]),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
   ],

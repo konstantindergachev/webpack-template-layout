@@ -56,10 +56,12 @@ const config = {
     new MiniCssExtractPlugin({
       filename: 'style.css',
     }),
-    new CopyPlugin([
-      { from: 'src/img/favicon', to: 'img/favicon', toType: 'dir' },
-      { from: 'src/img/favicon.ico', to: 'favicon.ico', toType: 'file' },
-    ]),
+    new CopyPlugin({
+      patterns: [
+        { from: 'src/img/favicon', to: 'img/favicon', toType: 'dir' },
+        { from: 'src/img/favicon.ico', to: 'favicon.ico', toType: 'file' },
+      ],
+    }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
   ],

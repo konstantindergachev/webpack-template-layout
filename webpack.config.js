@@ -34,16 +34,16 @@ const config = {
       },
       {
         test: /\.pug$/,
-        use: [ 'html-loader', 'pug-html-loader' ],
+        use: ['html-loader', 'pug-html-loader'],
       },
       {
         test: /\.(png|jpe?g|gif|ico|svg)$/,
-        loader: 'file-loader?name=img/[name].[ext]',
+        use: [{ loader: 'file-loader?name=img/[name].[ext]' }],
       },
     ],
   },
   optimization: {
-    minimizer: [ new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({}) ],
+    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -58,23 +58,24 @@ const config = {
     }),
     new CopyPlugin({
       patterns: [
-        { from: 'src/img/favicon', to: 'img/favicon', toType: 'dir' },
-        { from: 'src/img/favicon.ico', to: 'favicon.ico', toType: 'file' },
+        { from: './src/img/favicon', to: './img/favicon', toType: 'dir' },
+        { from: './src/img/favicon.ico', to: 'favicon.ico', toType: 'file' },
       ],
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
   ],
   mode: isProd ? 'production' : 'development',
   devServer: {
     noInfo: true,
     overlay: true,
+    port: 3000,
+    open: true,
     contentBase: path.join(__dirname, 'src'),
   },
 };
 
 module.exports = (env, options) => {
   const production = options.mode === 'production';
-  config.devtool = production ? false : 'cheap-module-source-map';
+  config.devtool = production ? false : 'eval-cheap-module-source-map'; //best-source-map
   return config;
 };

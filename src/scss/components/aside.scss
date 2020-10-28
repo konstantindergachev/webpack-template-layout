@@ -1,6 +1,6 @@
-.sidebar{
+.sidebar {
   grid-area: sidebar;
   background-color: var(--second-color);
   padding: 15px;
-  border-left: 1px solid #fff;
+  border-left: 1px solid var(--border-color);
 }
